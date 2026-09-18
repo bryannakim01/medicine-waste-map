@@ -85,6 +85,8 @@ Object.keys(bySido).sort((a,b) => a.localeCompare(b, "ko")).forEach(sido => {
     b.title = `${d.sido} ${d.sigungu} · ${typeLabel(d.type)}`;
     b.setAttribute("aria-label", b.title);
     b.dataset.type = categoryOf(d.type);
+    b.dataset.postbox = d.postbox === "O" ? "true" : "false";
+    b.dataset.pharmacy = d.pharmacy === "O" ? "true" : "false";
     b.addEventListener("click", () => tileDetail.innerHTML = detailHTML(d));
     tiles.appendChild(b);
   });
@@ -92,15 +94,38 @@ Object.keys(bySido).sort((a,b) => a.localeCompare(b, "ko")).forEach(sido => {
   tileMap.appendChild(group);
 });
 
-document.querySelectorAll(".filter").forEach(btn => {
+let activeOrdinanceFilter = "all";
+let activeCollectionFilter = "all";
+
+const postboxCount = MUNICIPAL_DATA.filter(d => d.postbox === "O").length;
+const pharmacyCount = MUNICIPAL_DATA.filter(d => d.pharmacy === "O").length;
+document.querySelector("#postboxCount").textContent = `(${postboxCount})`;
+document.querySelector("#pharmacyCount").textContent = `(${pharmacyCount})`;
+
+function applyFilters() {
+  document.querySelectorAll(".tile").forEach(tile => {
+    const ordinanceMatch = activeOrdinanceFilter === "all" || tile.dataset.type === activeOrdinanceFilter;
+    const collectionMatch = activeCollectionFilter === "all" || tile.dataset[activeCollectionFilter] === "true";
+    tile.classList.toggle("hidden", !(ordinanceMatch && collectionMatch));
+  });
+}
+
+document.querySelectorAll(".ordinance-filter").forEach(btn => {
   btn.addEventListener("click", () => {
-    document.querySelectorAll(".filter").forEach(x => x.classList.remove("active"));
+    document.querySelectorAll(".ordinance-filter").forEach(x => x.classList.remove("active"));
     btn.classList.add("active");
     const filterMap = {"있음":"dedicated","있음(폐기물조례)":"waste","있음(제한적)":"limited","없음":"none"};
-    const filter = filterMap[btn.dataset.filter] || "all";
-    document.querySelectorAll(".tile").forEach(tile => {
-      tile.classList.toggle("hidden", filter !== "all" && tile.dataset.type !== filter);
-    });
+    activeOrdinanceFilter = filterMap[btn.dataset.filter] || "all";
+    applyFilters();
+  });
+});
+
+document.querySelectorAll(".collection-filter").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".collection-filter").forEach(x => x.classList.remove("active"));
+    btn.classList.add("active");
+    activeCollectionFilter = btn.dataset.collection || "all";
+    applyFilters();
   });
 });
 
