@@ -36,12 +36,26 @@
           각 타일을 누르면 해당 지역의 조례 정보를 바로 볼 수 있습니다.
         </p>
 
-        <div class="controls">
-          <button class="filter active" data-filter="all">전체</button>
-          <button class="filter" data-filter="있음">전용 조례</button>
-          <button class="filter" data-filter="있음(폐기물조례)">폐기물 조례</button>
-          <button class="filter" data-filter="있음(제한적)">제한적</button>
-          <button class="filter" data-filter="없음">관련 조례 없음</button>
+        <div class="filter-panel">
+          <div class="filter-row">
+            <span class="filter-label">조례 유형</span>
+            <div class="controls" id="ordinanceFilters">
+              <button class="filter ordinance-filter active" data-filter="all">전체</button>
+              <button class="filter ordinance-filter" data-filter="있음">전용 조례</button>
+              <button class="filter ordinance-filter" data-filter="있음(폐기물조례)">폐기물 조례</button>
+              <button class="filter ordinance-filter" data-filter="있음(제한적)">제한적</button>
+              <button class="filter ordinance-filter" data-filter="없음">관련 조례 없음</button>
+            </div>
+          </div>
+          <div class="filter-row">
+            <span class="filter-label">수거 방식</span>
+            <div class="controls" id="collectionFilters">
+              <button class="filter collection-filter active" data-collection="all">전체</button>
+              <button class="filter collection-filter" data-collection="postbox">📮 우체통 수거지역 <span class="filter-count" id="postboxCount"></span></button>
+              <button class="filter collection-filter" data-collection="pharmacy">💊 약국 수거지역 <span class="filter-count" id="pharmacyCount"></span></button>
+            </div>
+          </div>
+          <p class="filter-help">두 필터를 함께 선택할 수 있습니다. 예: ‘전용 조례’ + ‘우체통 수거지역’</p>
         </div>
 
         <div class="legend">
@@ -63,6 +77,16 @@
     <section class="section wrap">
       <p class="section-kicker">03 · 옆 동네인데도 다릅니다</p>
       <h2>행정구역 하나를 넘으면 규정이 달라집니다.</h2>
+      <div class="reality-callout">
+        <p class="callout-label">조례가 곧 실제 수거체계는 아닙니다</p>
+        <h3>서울은 조례에 ‘약국’이 적혀 있어도, 실제 운영은 다를 수 있습니다.</h3>
+        <p>
+          서울에서는 2021년 약사회의 폐의약품 수거 중지 선언 이후 주민센터·보건소 등 공공 거점과 우체통 중심으로 수거체계가 확대되었습니다.
+          그 결과 일부 자치구 조례에는 여전히 수거장소로 ‘약국’이 포함되어 있지만, 현재 서울시 공통 안내에서 모든 약국이 수거처인 것은 아닙니다.
+          다만 일부 자치구의 약국은 자체적으로 수거를 계속하고 있습니다.
+        </p>
+        <p class="callout-note">※ 이 사이트의 ‘약국 수거’ 표시는 조사 당시 확인한 실제 운영 여부를 기준으로 정리했습니다. 조례 문구와 실제 운영이 다를 수 있습니다.</p>
+      </div>
       <div id="comparison" class="comparison"></div>
     </section>
 
